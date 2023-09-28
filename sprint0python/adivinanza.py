@@ -9,13 +9,25 @@ guessDictionary = {
 def randomNumber(minLimit, maxLimit):
     return random.randint(minLimit, maxLimit)
 
-numberToGuess = randomNumber(1, 3)
-#print(numberToGuess)
+def choiceGame(number):
+    numberToGuess = randomNumber(1, 3)
+    #print(numberToGuess)
 
-print("Opcion \"a\", \"b\" o \"c\"?")
-choice = input(">").lower()
+    print("Adivinanza "+str(number)+": \"a\", \"b\" o \"c\"?")
+    choice = input(">").lower()
 
-if guessDictionary[choice] == numberToGuess:
-    print("Acierto!")
-else:
-    print("Erorr!")
+    if guessDictionary[choice] == numberToGuess:
+        print("Acierto!\n")
+        points = 10
+    else:
+        print("Erorr!\n")
+        points = -5
+    
+    return points
+
+totalPoints = 0
+totalPoints += choiceGame(1)
+totalPoints += choiceGame(2)
+totalPoints += choiceGame(3)
+
+print("Has obtenido "+str(totalPoints)+" puntos en total")
