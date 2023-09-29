@@ -6,28 +6,24 @@ guessDictionary = {
     'c': 3
 }
 
+riddleList = ["Tengo agujas y no se coser, tengo numeros y no se leer\na. Una lechuga       b. Un reloj         c. Una zebra",
+              "Te la digo y no me entiendes, te la repito y no me comprendes\na. Un buho           b. Un loro          c. Una tela",
+              "Cuando llueve y sale el sol, todos los colores los tengo yo\na. El arcoiris       b. Una abeja        c. Un elefante"]
+
 def randomNumber(minLimit, maxLimit):
     return random.randint(minLimit, maxLimit)
 
-def choiceGame(number):
-    numberToGuess = randomNumber(1, 3)
-    #print(numberToGuess)
+randomizedRiddleList = random.sample(riddleList, k = 3)
 
-    print("Adivinanza "+str(number)+": \"a\", \"b\" o \"c\"?")
-    choice = input(">").lower()
+print (randomizedRiddleList[1])
 
-    if guessDictionary[choice] == numberToGuess:
-        print("Acierto!\n")
-        points = 10
-    else:
-        print("Erorr!\n")
-        points = -5
-    
-    return points
+#choice = input(">").lower()
 
-totalPoints = 0
-totalPoints += choiceGame(1)
-totalPoints += choiceGame(2)
-totalPoints += choiceGame(3)
+#if guessDictionary[choice] == numberToGuess:
+#    print("Acierto!\n")
+#    points = 10
+#else:
+#    print("Erorr!\n")
+#    points = -5
 
-print("Has obtenido "+str(totalPoints)+" puntos en total")
+#print("Has obtenido "+str(totalPoints)+" puntos en total")
