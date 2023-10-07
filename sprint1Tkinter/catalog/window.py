@@ -1,7 +1,7 @@
-from tkinter import ttk
+from tkinter import ttk, messagebox
 import tkinter as tk
 from cell import Cell
-from tkinter import messagebox
+from PIL import Image, ImageTk
 
 
 class MainWindow:
@@ -11,19 +11,25 @@ class MainWindow:
 
     def __init__(self, root):
         root.title("Ventana principal")
-        default_path = "D:\\usuario\\Documentos\\Clase\\DInt\\sprint1Tkinter\\catalog\\data\\"
+        default_path = "D:\\usuario\\Documentos\\Clase\\DInt\\sprint1Tkinter\\catalog\\data\\unedited\\"
 
         # Creo una lista de Cells y le paso a cada celda su titulo y ruta
         self.cells = [
-            Cell("Ciudades de la llanura", default_path + "edited\\CiudadesDeLaLlanura.jpg"),
-            Cell("El Aleph", default_path + "edited\\ElAleph.jpg"),
-            Cell("El forastero misterioso", default_path + "edited\\ElForasteroMisterioso.jpg"),
-            Cell("Esto es agua", default_path + "edited\\EstoEsAgua.jpg"),
-            Cell("Hamlet", default_path + "edited\\Hamlet.jpg")
+            Cell("Ciudades de la llanura", default_path + "CiudadesDeLaLlanura.jpg"),
+            Cell("El Aleph", default_path + "ElAleph.jpg"),
+            Cell("El forastero misterioso", default_path + "ElForasteroMisterioso.jpg"),
+            Cell("Esto es agua", default_path + "EstoEsAgua.jpg"),
+            Cell("Hamlet", default_path + "Hamlet.jpg")
         ]
 
         # Este loop crea una label con un titulo e imagen por cada iteracion
         for i, cell in enumerate(self.cells):
+            # Abro la imagen sin editar usando y la reescalo usando Image.open(ruta).resize
+            # En lugar de Image.ANTIALIAS he usado Image.Resampling.LANCZOS,
+            # ya que antialias fue eliminado en la version 10 de Pillow
+            resized_image = Image.open(cell.path).resize((100, 100), Image.Resampling.LANCZOS)
+            cell.image_tk = ImageTk.PhotoImage(resized_image)
+
             # Se asigna a una label un titulo y una imagen. Se indica que la imagen debe estar debajo del titulo
             label = ttk.Label(root, image=cell.image_tk, text=cell.title, compound=tk.BOTTOM)
 
