@@ -6,10 +6,13 @@ from detail_window import open_detail_window
 
 class MainWindow:
     def __init__(self, root):
+        # Defino el titulo de la ventana
         root.title("Ventana principal")
+        # Defino la ruta de la carpeta unedited
         default_path = "C:\\msys64\\home\\Profesor\\DInt\\sprint1Tkinter\\catalog\\data\\unedited\\"
+        # default_path = "D:\\usuario\\Documentos\\Clase\\DInt\\sprint1Tkinter\\catalog\\data\\unedited\\"
 
-        # Creo una lista de Cells y le paso a cada celda su titulo y ruta
+        # Creo una lista de Cells y le paso a cada celda su titulo, ruta y descripcion como parametros
         self.cells = [
             Cell("Ciudades de la llanura", default_path + "CiudadesDeLaLlanura.jpg", "blablabla"),
             Cell("El Aleph", default_path + "ElAleph.jpg", "blebleble"),
@@ -28,5 +31,5 @@ class MainWindow:
 
             # Label.bind indica a la label que este pendiente de un evento, en este caso ser clicada
             # El lambda event es una funcion simple y corta que se usa localmente y se activa con el event
-            # La ultima parte ejecuta la funcion on_button_clicked pasando como parametro la celda actual
+            # La ultima parte ejecuta la funcion open_detail window pasando como parametro la celda actual
             label.bind("<Button-1>", lambda event, celda=cell: open_detail_window(celda))
