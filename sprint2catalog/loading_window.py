@@ -1,6 +1,8 @@
 import threading
 import tkinter
-from tkinter import ttk, Tk
+import requests
+from window import MainWindow
+
 
 class LoadingWindow:
     def __init__(self, root):
@@ -29,6 +31,9 @@ class LoadingWindow:
 
         self.update_progress_circle()
 
+        self.thread = threading.Thread(target=self.fetch_json_data)
+        self.thread.start()
+
     # Esta funcion se encarga de dibujar el circulo de carga en el lienzo
     def draw_progress_circle(self, progress):
         # Calcula el angulo que dibujara
@@ -47,3 +52,18 @@ class LoadingWindow:
         self.draw_progress_circle(self.progress)
         # Esta funcion se llama a si misma de nuevo cada 100 milisegundos
         self.root.after(100, self.update_progress_circle)
+
+    def fetch_json_data(self):
+        response = requests.get("https://raw.githubusercontent.com/narCord/DAM/main/recursos/catalog.json")
+        if response.status_code == 200:
+            json_data = response.json()
+            self.root.quit()
+            self.launch_main_window()
+
+    def launch_main_window(self):
+        rootA = tkinter.Tk()
+        app = MainWindow(rootA)
+        rootA.mainloop()
+
+
+
