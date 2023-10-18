@@ -1,12 +1,11 @@
-import tkinter.messagebox
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, Canvas, Scrollbar, Frame
 import tkinter as tk
 from cell import Cell
 from detail_window import open_detail_window
 
 
 def about_menu_clicked():
-    tkinter.messagebox.showinfo(title="Acerca de", message="Texto de prueba")
+    messagebox.showinfo(title="Acerca de", message="Texto de prueba")
 
 
 class MainWindow:
@@ -19,7 +18,7 @@ class MainWindow:
         root.geometry(f"+{int(x)}+{int(y)}")
         # Define las dimensiones en pixeles de la ventana que dibujara
         root.geometry("135x250")
-        
+
         # Crea una barra de menu
         menu_bar = tk.Menu()
         help_menu = tk.Menu(menu_bar, tearoff=False)
@@ -30,8 +29,23 @@ class MainWindow:
         # Asigna la barra de menu a la ventana
         root.config(menu=menu_bar)
 
-        # Variable para posicionar el grid en el loop for
-        pos = 0
+        # Crea un nuevo canvas
+        self.canvas = Canvas(root)
+        # Se indica que el scrollbar se movera en el eje y del canvas
+        self.scrollbar = Scrollbar(root, orient="vertical", command=self.canvas.yview)
+        # El frame es el widget desplazable
+        self.scrollable_frame = Frame(self.canvas)
+
+        # Esta funcion lambda hace la region desplazable del canvas se actualize cada vez que se actualiza el Frame
+        self.scrollable_frame.bind(
+            "<Configure>",
+            lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+        )
+
+        # Situa el frame en las coordenadas 0, 0 del canvas y lo ancla al noroeste
+        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+        # Vincula el scrollbar al canvas para que se actualize cuando se desplaza en canvas
+        self.canvas.configure(yscrollcommand=self.scrollbar.set)
 
         # Este loop iterara la lista creada a partir del json
         for element in json_data:
@@ -43,14 +57,29 @@ class MainWindow:
             # Instancia una nueva cell con los datos obtenidos del json
             cell = Cell(self.title, self.image_url, self.description)
 
-            # Se asigna a una label un titulo y una imagen. Se indica que la imagen debe estar debajo del titulo
-            label = ttk.Label(root, image=cell.image_tk, text=cell.title, compound=tk.BOTTOM)
+            self.add_item(cell)
 
-            # Asigna una posicion a la label en la cuadricula
-            label.grid(row=pos, column=0)
-            pos += 1
+        # Posiciona el canvas en la ventana principal y permite que se expanda en todas las direcciones
+        self.canvas.grid(row=0, column=0, sticky="nsew")
+        # Posiciona el scrollbar la ventana principal junto al canvas y permite su expansion vertical
+        self.scrollbar.grid(row=0, column=1, sticky="ns")
 
-            # Label.bind indica a la label que este pendiente de un evento, en este caso ser clicada
-            # El lambda event es una funcion simple y corta que se usa localmente y se activa con el event
-            # La ultima parte ejecuta la funcion open_detail window pasando como parametro la celda actual
-            label.bind("<Button-1>", lambda event, celda=cell: open_detail_window(celda))
+        # Configuran el grid para que se redimensione proporcionalmente cuando lo hace la ventana principal
+        root.grid_rowconfigure(0, weight=1)
+        root.grid_columnconfigure(0, weight=1)
+
+    # Este metodo se encarga de añadir las celdas al frame
+    def add_item(self, cell):
+        frame = Frame(self.scrollable_frame)
+        frame.pack(pady=10)
+
+        # Se asigna a una label un titulo y una imagen. Se indica que la imagen debe estar debajo del titulo
+        label = ttk.Label(frame, image=cell.image_tk, text=cell.title, compound=tk.BOTTOM)
+
+        # Asigna una posicion a la label en la cuadricula
+        label.grid(row=0, column=0)
+
+        # Label.bind indica a la label que este pendiente de un evento, en este caso ser clicada
+        # El lambda event es una funcion simple y corta que se usa localmente y se activa con el event
+        # La ultima parte ejecuta la funcion open_detail window pasando como parametro la celda actual
+        label.bind("<Button-1>", lambda event, celda=cell: open_detail_window(celda))
