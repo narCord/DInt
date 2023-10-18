@@ -4,10 +4,10 @@ import requests
 from window import MainWindow
 
 
-# def launch_main_window(json_data):
-#     rootA = tkinter.Tk()
-#     app = MainWindow(rootA, json_data)
-#     rootA.mainloop()
+def launch_main_window(json_data):
+    root = tkinter.Tk()
+    app = MainWindow(root, json_data)
+    root.mainloop()
 
 
 class LoadingWindow:
@@ -40,6 +40,8 @@ class LoadingWindow:
 
         self.update_progress_circle()
 
+        self.check_thread()
+
         self.thread = threading.Thread(target=self.fetch_json_data)
         self.thread.start()
 
@@ -56,7 +58,7 @@ class LoadingWindow:
     # Esta funcion actualiza el progreso del circulo de carga
     def update_progress_circle(self):
         # Suma a la variable que se utiliza para calcular el angulo
-        self.progress += 9
+        self.progress += 10
         # Llama a la funcion que dibuja el circulo
         self.draw_progress_circle(self.progress)
         # Esta funcion se llama a si misma de nuevo cada 100 milisegundos
@@ -77,9 +79,6 @@ class LoadingWindow:
     def check_thread(self):
         if self.finished:
             self.root.destroy()
-            # launch_main_window(self.json_data)
+            launch_main_window(self.json_data)
         else:
             self.root.after(100, self.check_thread)
-
-
-
