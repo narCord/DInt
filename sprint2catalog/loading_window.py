@@ -4,6 +4,12 @@ import requests
 from window import MainWindow
 
 
+# def launch_main_window(json_data):
+#     rootA = tkinter.Tk()
+#     app = MainWindow(rootA, json_data)
+#     rootA.mainloop()
+
+
 class LoadingWindow:
     def __init__(self, root):
         self.root = root
@@ -12,6 +18,9 @@ class LoadingWindow:
         self.root.geometry("170x120")
         # Define si la ventana sera redimensionable. Primer parametro altura, segundo anchura
         self.root.resizable(False, False)
+
+        self.finished = False
+        self.json_data = []
 
         # Crea una etiqueta y la coloca la parte superior de la ventana con un relleno de 10 pixeles en el eje y
         self.label = tkinter.Label(self.root, text="Cargando datos...", font=("Arial", 14))
@@ -53,17 +62,24 @@ class LoadingWindow:
         # Esta funcion se llama a si misma de nuevo cada 100 milisegundos
         self.root.after(100, self.update_progress_circle)
 
+    # Esta funcion recoge los datos del json alojado en el link
+    # Si el codigo de respuesta es igual 200, es decir, exitoso, almacenara los datos del json leido en un array
+    # y pondra self.finished a True
     def fetch_json_data(self):
         response = requests.get("https://raw.githubusercontent.com/narCord/DAM/main/recursos/catalog.json")
         if response.status_code == 200:
-            json_data = response.json()
-            self.root.quit()
-            self.launch_main_window()
+            self.json_data = response.json()
+            self.finished = True
+            # print(self.json_data)
 
-    def launch_main_window(self):
-        rootA = tkinter.Tk()
-        app = MainWindow(rootA)
-        rootA.mainloop()
+    # Esta funcion detecta si el thread que lee el json ha terminado, si lo ha hecho destruye la ventana actual y lanza
+    # launch_main_window pasando el array json_data como parametro, si no lo ha hecho se repite a si misma cada 100ms
+    def check_thread(self):
+        if self.finished:
+            self.root.destroy()
+            # launch_main_window(self.json_data)
+        else:
+            self.root.after(100, self.check_thread)
 
 
 
