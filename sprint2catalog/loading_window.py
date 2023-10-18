@@ -14,6 +14,10 @@ class LoadingWindow:
     def __init__(self, root):
         self.root = root
         self.root.title()
+        # Posiciona la ventana en el centro de la pantalla
+        x = (self.root.winfo_screenwidth() - self.root.winfo_reqwidth()) / 2
+        y = (self.root.winfo_screenheight() - self.root.winfo_reqheight()) / 2
+        self.root.geometry(f"+{int(x)}+{int(y)}")
         # Define las dimensiones en pixeles de la ventana que dibujara
         self.root.geometry("170x120")
         # Define si la ventana sera redimensionable. Primer parametro altura, segundo anchura

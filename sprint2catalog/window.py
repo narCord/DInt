@@ -8,6 +8,12 @@ class MainWindow:
     def __init__(self, root, json_data):
         # Defino el titulo de la ventana
         root.title("Ventana principal")
+        # Posiciona la ventana en el centro de la pantalla
+        x = (root.winfo_screenwidth() - root.winfo_reqwidth()) / 2
+        y = (root.winfo_screenheight() - root.winfo_reqheight()) / 2
+        root.geometry(f"+{int(x)}+{int(y)}")
+        # Define las dimensiones en pixeles de la ventana que dibujara
+        root.geometry("135x250")
 
         pos = 0
 
