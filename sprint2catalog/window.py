@@ -1,7 +1,12 @@
-from tkinter import ttk
+import tkinter.messagebox
+from tkinter import ttk, messagebox
 import tkinter as tk
 from cell import Cell
 from detail_window import open_detail_window
+
+
+def about_menu_clicked():
+    tkinter.messagebox.showinfo(title="Acerca de", message="Texto de prueba")
 
 
 class MainWindow:
@@ -14,7 +19,18 @@ class MainWindow:
         root.geometry(f"+{int(x)}+{int(y)}")
         # Define las dimensiones en pixeles de la ventana que dibujara
         root.geometry("135x250")
+        
+        # Crea una barra de menu
+        menu_bar = tk.Menu()
+        help_menu = tk.Menu(menu_bar, tearoff=False)
+        # Añade la opcion "Acerca de" a la barra de menu y hace que invoque about_menu_clicked cuando sea clickada
+        help_menu.add_command(label="Acerca de", command=about_menu_clicked)
+        # Crea la cascada en la barra de menu con el titulo "Ayuda"
+        menu_bar.add_cascade(menu=help_menu, label="Ayuda")
+        # Asigna la barra de menu a la ventana
+        root.config(menu=menu_bar)
 
+        # Variable para posicionar el grid en el loop for
         pos = 0
 
         # Este loop iterara la lista creada a partir del json
