@@ -1,0 +1,5 @@
+{
+	"Facil": ["agua", "rata", "sol", "grifo", "luna"],
+	"Normal": ["camion", "seguro", "trueno", "amargo", "pelota"],
+	"Dificil": ["supersticion", "traficante", "hamburguesa", "electricidad", "ovoviviparo"]
+}
