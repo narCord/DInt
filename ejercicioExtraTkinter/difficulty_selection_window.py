@@ -1,35 +1,38 @@
-import threading
-import requests
+import sys
+from tkinter import ttk
 import tkinter
+from game_window import GameWindow
 
 
 class DifficultyWindow:
     def __init__(self, root):
         self.root = root
-        self.root.title('Ahorcado')
-        self.root.geometry('250x250')
+        self.window_configuration()
+        self.selected_difficulty = ''
+
+        self.button_creation()
+
+    def window_configuration(self):
+        self.root.title('Selección de dificultad')
+        x = (self.root.winfo_screenwidth() - self.root.winfo_reqwidth()) / 2.3
+        y = (self.root.winfo_screenheight() - self.root.winfo_reqheight()) / 3
+        self.root.geometry(f'+{int(x)}+{int(y)}')
+        self.root.geometry('300x150')
         self.root.resizable(False, False)
 
-        self.finished_images_thread = False
-        self.finished_words_thread = False
-        self.images_json_data = []
-        self.words_json_data = []
+    def button_creation(self):
+        ttk.Label(text='Elija la dificultad de la partida', font=30).pack()
+        # Boton facil
+        ttk.Button(text='Fácil', width=15, command=lambda: self.launch_game('Facil')).pack()
+        # Boton normal
+        ttk.Button(text='Normal',  width=15,command=lambda: self.launch_game('Normal')).pack()
+        # Boton dificil
+        ttk.Button(text='Difícil',  width=15,command=lambda: self.launch_game('Dificil')).pack()
+        # Boton de salir
+        ttk.Button(text='Salir', command=sys.exit).pack(side='bottom')
 
-        self.fetch_image_json_data()
-        self.fetch_words_json_data()
-
-    def fetch_image_json_data(self):
-        ima = 'https://raw.githubusercontent.com/narCord/DInt/main/ejercicioExtraTkinter/HangedMan/hangedManImages.json'
-        response = requests.get(ima)
-        if response.status_code == 200:
-            self.images_json_data = response.json()
-            self.finished_images_thread = True
-            # print(self.images_json_data)
-
-    def fetch_words_json_data(self):
-        words = 'https://raw.githubusercontent.com/narCord/DInt/main/ejercicioExtraTkinter/palabras.json'
-        response = requests.get(words)
-        if response.status_code == 200:
-            self.words_json_data = response.json()
-            self.finished_words_thread = True
-            # print(self.words_json_data)
+    def launch_game(self, difficulty):
+        self.root.destroy()
+        root = tkinter.Tk()
+        app = GameWindow(root, difficulty)
+        root.mainloop()
