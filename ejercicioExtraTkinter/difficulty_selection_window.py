@@ -25,9 +25,9 @@ class DifficultyWindow:
         # Boton facil
         ttk.Button(text='Fácil', width=15, command=lambda: self.launch_game('Facil')).pack()
         # Boton normal
-        ttk.Button(text='Normal',  width=15,command=lambda: self.launch_game('Normal')).pack()
+        ttk.Button(text='Normal',  width=15, command=lambda: self.launch_game('Normal')).pack()
         # Boton dificil
-        ttk.Button(text='Difícil',  width=15,command=lambda: self.launch_game('Dificil')).pack()
+        ttk.Button(text='Difícil',  width=15, command=lambda: self.launch_game('Dificil')).pack()
         # Boton de salir
         ttk.Button(text='Salir', command=sys.exit).pack(side='bottom')
 
