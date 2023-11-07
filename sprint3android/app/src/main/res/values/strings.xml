@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">My Catalog</string>
-    <string name="navigation_drawer_open">Drawer abierto</string>
-    <string name="navigation_drawer_close">Drawer cerrado</string>
+    <string name="navigation_drawer_open">Abrir drawer</string>
+    <string name="navigation_drawer_close">Cerrar drawer</string>
 </resources>
