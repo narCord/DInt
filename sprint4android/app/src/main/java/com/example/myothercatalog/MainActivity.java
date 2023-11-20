@@ -1,15 +1,20 @@
 package com.example.myothercatalog;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
                                 throw new RuntimeException(e);
                             }
                         }
+                        BookRecyclerViewAdapter adapter = new BookRecyclerViewAdapter(bookList, activity);
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
                     }
                 },
                 new Response.ErrorListener() {
@@ -54,5 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(request);
     }
 }
