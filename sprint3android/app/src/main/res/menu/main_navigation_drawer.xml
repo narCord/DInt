@@ -8,8 +8,8 @@
             android:id="@+id/catalog_frag_menu"
             android:title="@string/catalog"/>
         <item
-            android:id="@+id/detail_frag_menu"
-            android:title="@string/detail"/>
+            android:id="@+id/about_frag_menu"
+            android:title="@string/about"/>
     </group>
 
 </menu>
