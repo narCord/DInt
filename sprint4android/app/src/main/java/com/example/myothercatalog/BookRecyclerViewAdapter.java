@@ -22,8 +22,10 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookViewHolder
     @NonNull
     @Override
     public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_recycler_cell, parent, false);
-        return new BookViewHolder(view);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.book_recycler_cell, parent, false);
+        BookViewHolder bookViewHolder = new BookViewHolder(view);
+        return bookViewHolder;
     }
 
     @Override
