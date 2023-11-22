@@ -31,16 +31,17 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         Intent intent = getIntent();
+        // Recupera los datos del clickListener de la vista
         String bookName = intent.getStringExtra(DetailActivity.INTENT_BOOK_NAME);
         String bookImageUrl = intent.getStringExtra(DetailActivity.INTENT_BOOK_IMAGE_URL);
         String bookDescription = intent.getStringExtra(DetailActivity.INTENT_BOOK_DESCRIPTION);
 
+        // Carga los datos es los views correspondientes
         nameTextView = findViewById(R.id.detail_title);
         nameTextView.setText(bookName);
         imageView = findViewById(R.id.detail_image);
         Picasso.get().load(bookImageUrl).into(imageView);
         descTextView = findViewById(R.id.detail_description);
         descTextView.setText(bookDescription);
-
     }
 }
