@@ -41,5 +41,6 @@ public class DetailActivity extends AppCompatActivity {
         Picasso.get().load(bookImageUrl).into(imageView);
         descTextView = findViewById(R.id.detail_description);
         descTextView.setText(bookDescription);
+
     }
 }
